@@ -1,0 +1,15 @@
+{
+  "name": "Bússola — Análise & Orçamento",
+  "short_name": "Bússola",
+  "description": "Análise fundamental de ações, histórico de investimentos e controlo orçamental — a tua bússola financeira.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0D141D",
+  "theme_color": "#134E6F",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
