@@ -9,6 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#134E6F">
+<meta name="app-version" content="v22">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Bússola">
@@ -370,6 +372,22 @@
   #panel-budget.hide-vals #rvd{filter:blur(8px);}
   /* ---- Tabela histórico ---- */
   .hist-wrap{overflow-x:auto; border:1px solid var(--hairline); border-radius:14px; background:var(--card); box-shadow:var(--shadow); -webkit-overflow-scrolling:touch;}
+  .hist-positions:not(:empty){margin-top:18px; border:1px solid var(--hairline); border-radius:14px; background:var(--card); box-shadow:var(--shadow); padding:16px 18px;}
+  .hp-head{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:12px;}
+  .hp-head h4{margin:0; font-size:15px; font-weight:800; color:var(--ink);}
+  .hp-sub{font-size:12px; color:var(--faint);}
+  .hp-table{display:flex; flex-direction:column;}
+  .hp-row{display:grid; grid-template-columns:2fr 1.2fr 52px 1.4fr; gap:10px; align-items:center; padding:9px 4px; border-bottom:1px solid var(--hairline); font-size:13px;}
+  .hp-row:last-child{border-bottom:none;}
+  .hp-hd{font-size:11px; text-transform:uppercase; letter-spacing:.3px; color:var(--muted); font-weight:700;}
+  .hp-name{font-weight:700; color:var(--ink); overflow-wrap:anywhere;}
+  .hp-type{color:var(--muted);}
+  .hp-n{text-align:right; font-variant-numeric:tabular-nums;}
+  .hp-val{font-weight:800; color:var(--c-inv); font-family:"JetBrains Mono",monospace; font-size:12.5px;}
+  .hp-total{margin-top:12px; padding-top:12px; border-top:1px solid var(--hairline-strong); font-size:13.5px; color:var(--ink); text-align:right;}
+  .hp-total b{color:var(--accent); font-family:"JetBrains Mono",monospace;}
+  .hp-disc{font-size:11px; color:var(--faint); line-height:1.5; margin:10px 0 0;}
+  @media(max-width:560px){.hp-row{grid-template-columns:1.6fr 44px 1.3fr;} .hp-type{display:none;}}
   .hist-tb{width:100%; border-collapse:collapse; font-size:13px; min-width:760px;}
   .hist-tb th{text-align:left; font-family:"Inter"; font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); padding:12px 10px; border-bottom:1px solid var(--hairline); background:var(--info-bg);}
   .hist-tb th.num,.hist-tb td.num{text-align:right;}
@@ -438,6 +456,26 @@
   .guest-banner button{border:none; border-radius:8px; padding:6px 12px; font-family:"Inter"; font-weight:700; font-size:12px; cursor:pointer; background:#fff; color:var(--brand);}
   /* toast de notificações (#3) */
   .toast{position:fixed; left:50%; transform:translateX(-50%) translateY(20px); bottom:22px; z-index:200; background:var(--ink); color:var(--bg); border-radius:11px; padding:11px 16px; font-size:13px; font-weight:600; box-shadow:0 14px 40px rgba(0,0,0,.4); opacity:0; transition:opacity .25s, transform .25s; pointer-events:none; max-width:90vw; display:flex; gap:9px; align-items:flex-start;}
+  .upd-banner{position:fixed; left:50%; transform:translateX(-50%) translateY(24px); bottom:22px; z-index:205; background:var(--brand); color:#fff; border-radius:12px; padding:10px 12px 10px 16px; font-size:13px; font-weight:600; box-shadow:0 16px 44px rgba(0,0,0,.4); opacity:0; transition:opacity .25s, transform .25s; pointer-events:none; display:flex; gap:10px; align-items:center; max-width:92vw;}
+  .upd-banner.show{opacity:1; transform:translateX(-50%) translateY(0); pointer-events:auto;}
+  .upd-banner button{border:none; cursor:pointer; font-weight:700; font-size:13px; border-radius:8px;}
+  .upd-banner #update-reload{background:#fff; color:var(--brand); padding:6px 14px;}
+  .upd-banner #update-dismiss{background:transparent; color:rgba(255,255,255,.8); padding:6px 8px; font-size:14px;}
+
+  /* ===== Novidades (what's new) ===== */
+  .wn-glow{border-radius:12px; box-shadow:0 0 0 2px rgba(15,163,127,.55), 0 0 20px 3px rgba(15,163,127,.28); background-color:rgba(15,163,127,.06); animation:wnpulse 1.6s ease-in-out 3; scroll-margin-top:90px;}
+  @keyframes wnpulse{0%,100%{box-shadow:0 0 0 2px rgba(15,163,127,.5), 0 0 16px 2px rgba(15,163,127,.2);}50%{box-shadow:0 0 0 3px rgba(15,163,127,.85), 0 0 30px 8px rgba(15,163,127,.45);}}
+  .wn-overlay{position:fixed; inset:0; background:rgba(8,12,18,.55); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px); display:none; align-items:center; justify-content:center; z-index:210; padding:20px;}
+  .wn-overlay.show{display:flex;}
+  .wn-box{background:var(--card); border:1px solid var(--hairline); border-radius:18px; padding:22px; max-width:440px; width:100%; box-shadow:0 24px 70px rgba(0,0,0,.35); animation:pop .25s ease;}
+  .wn-head{display:flex; align-items:center; gap:10px; margin-bottom:14px;}
+  .wn-badge{font-weight:800; font-size:15px; color:var(--ink);}
+  .wn-head .wn-v{margin-left:auto; font-size:12px; font-weight:700; color:#fff; background:var(--brand); padding:3px 10px; border-radius:999px;}
+  .wn-list{list-style:none; margin:0 0 16px; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .wn-list li{font-size:13.5px; line-height:1.5; color:var(--ink); padding-left:22px; position:relative;}
+  .wn-list li::before{content:"🧭"; position:absolute; left:0; top:0; font-size:12px;}
+  .wn-list li small{display:block; color:var(--faint); font-size:11.5px; margin-top:2px;}
+  .wn-box .btn-primary{width:100%;}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
   .toast .ti{flex:none; margin-top:1px;}
   /* settings / perfil (#3) */
@@ -583,7 +621,23 @@
   .cx-lineS{fill:none; stroke:var(--c-inv); stroke-width:2; stroke-linejoin:round; stroke-linecap:round; stroke-dasharray:5 4;}
   .cx-lineI{fill:none; stroke:var(--faint); stroke-width:1.5; stroke-linejoin:round; stroke-dasharray:2 3;}
   .cx-dot{stroke:var(--card); stroke-width:2;}
+  .cx-goal{stroke:var(--accent); stroke-width:1.4; stroke-dasharray:6 4; opacity:.85;}
+  .cx-goal-lb{fill:var(--accent); font-size:9.5px; font-weight:700;}
+  .cx-target{stroke:var(--warn); stroke-width:1.2; stroke-dasharray:3 3; opacity:.75;}
+  .cx-target-lb{fill:var(--warn); font-size:9.5px; font-weight:700;}
   .calc-disc{font-size:11px; color:var(--faint); line-height:1.5; margin:0;}
+  .fire-inputs{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));}
+  .fire-progress{margin:2px 0 16px;}
+  .fp-bar{height:16px; border-radius:999px; background:rgba(127,127,127,.16); overflow:hidden; position:relative;}
+  .fp-fill{height:100%; border-radius:999px; background:linear-gradient(90deg,var(--brand-2),var(--accent)); transition:width .5s ease; min-width:2px;}
+  .fp-meta{display:flex; justify-content:space-between; align-items:baseline; font-size:12px; color:var(--muted); margin-top:7px; gap:10px;}
+  .fp-pct{font-weight:800; color:var(--accent); font-size:15px; font-variant-numeric:tabular-nums;}
+  .fire-verdict{font-size:13.5px; line-height:1.5; font-weight:600; color:var(--ink); margin:2px 0 14px; padding:10px 13px; border-radius:11px; border:1px solid var(--hairline-strong); border-left-width:3px; display:flex; gap:9px; align-items:flex-start;}
+  .fire-verdict.ontrack{border-left-color:var(--good); background:rgba(15,163,127,.06);}
+  .fire-verdict.late{border-left-color:var(--warn); background:rgba(224,145,58,.07);}
+  .fire-verdict.never{border-left-color:var(--bad); background:rgba(224,49,49,.06);}
+  .fire-verdict .fv-dot{width:9px;height:9px;border-radius:50%;margin-top:5px;flex:none;}
+  .fire-verdict.ontrack .fv-dot{background:var(--good);} .fire-verdict.late .fv-dot{background:var(--warn);} .fire-verdict.never .fv-dot{background:var(--bad);}
 
   @media (max-width:760px){
     .wrap{padding:16px 13px calc(64px + env(safe-area-inset-bottom)); }
@@ -769,6 +823,26 @@
       </table>
     </div>
     <div class="hist-total" id="hist-total"></div>
+    <div class="hist-positions" id="hist-positions"></div>
+
+    <details class="calc fire" id="fire-tracker" open>
+      <summary>Objetivo FIRE <span class="hint">acompanha o caminho até à meta e projeta quando lá chegas</span>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <div class="calc-body">
+        <div class="calc-inputs fire-inputs">
+          <div class="cfield"><label>Valor atual da carteira</label><div class="cin"><input id="fi-cur" inputmode="decimal" placeholder="0" aria-label="Valor atual da carteira"><span class="unit">€</span></div></div>
+          <div class="cfield"><label>Objetivo</label><div class="cin"><input id="fi-goal" inputmode="decimal" value="100.000" aria-label="Objetivo"><span class="unit">€</span></div></div>
+          <div class="cfield"><label>Aporte mensal</label><div class="cin"><input id="fi-pmt" inputmode="decimal" value="100" aria-label="Aporte mensal"><span class="unit">€</span></div></div>
+          <div class="cfield"><label>Retorno anual estimado</label><div class="cin"><input id="fi-rate" inputmode="decimal" value="7" aria-label="Retorno anual estimado"><span class="unit">%</span></div></div>
+          <div class="cfield"><label>Ano-objetivo</label><div class="cin"><input id="fi-year" inputmode="decimal" value="2034" aria-label="Ano-objetivo"><span class="unit"></span></div></div>
+        </div>
+        <div class="fire-progress" id="fire-progress"></div>
+        <div id="fire-verdict"></div>
+        <div class="calc-out" id="fire-out"></div>
+        <div class="calc-chart" id="fire-chart"></div>
+        <p class="calc-disc">Projeção hipotética com capitalização mensal, aporte constante e retorno anual fixo — os mercados variam, por isso serve de orientação, não de garantia. Não considera inflação, impostos nem comissões. O «valor atual» és tu que o introduzes (a app não tem cotações em tempo real). Informativo, não é aconselhamento financeiro.</p>
+      </div>
+    </details>
     <datalist id="asset-list"></datalist>
     <footer class="note"><b>Histórico de investimentos:</b> regista as tuas compras &mdash; data (calendário), tipo de ativo (com opção de adicionar), ativo/ticker (com pesquisa), corretora, quantia e moeda. Os dados ficam guardados só neste navegador. Não é aconselhamento financeiro.</footer>
   </section>
@@ -857,6 +931,18 @@
 
 <div id="tip" role="tooltip"></div>
 <div class="toast" id="toast"></div>
+<div class="upd-banner" id="update-banner">
+  <span>🧭 Nova versão disponível.</span>
+  <button type="button" id="update-reload">Atualizar</button>
+  <button type="button" id="update-dismiss" aria-label="Dispensar">✕</button>
+</div>
+<div class="wn-overlay" id="wn-overlay">
+  <div class="wn-box">
+    <div class="wn-head"><span class="wn-badge">🧭 Novidades</span><span class="wn-v" id="wn-ver"></span></div>
+    <ul class="wn-list" id="wn-list"></ul>
+    <button class="btn-primary" id="wn-ok" type="button">Percebido</button>
+  </div>
+</div>
 <div class="guest-banner" id="guest-banner"><span>Modo de demonstração — nada fica guardado. As alterações desaparecem ao fechar.</span><button type="button" id="guest-create">Criar conta</button></div>
 
 <div class="cal" id="cal" aria-label="Calendário">
@@ -983,6 +1069,8 @@
     </div>
 
     <button class="btn-ghost" id="set-logout" type="button" style="width:100%">Terminar sessão</button>
+    <div id="app-ver" style="text-align:center; font-size:11px; color:var(--faint); margin-top:14px"></div>
+    <div style="text-align:center; margin-top:4px"><button type="button" id="see-whatsnew" class="set-link" style="font-size:11px; font-weight:700">Ver novidades</button></div>
   </div>
 </div>
 
@@ -1480,7 +1568,7 @@ function suggestInvestment(res,good,total){
 
 /* ====== tooltips ====== */
 const tip=document.getElementById("tip");let pinned=null;
-function showTip(btn,text){tip.innerHTML="<strong>"+btn.parentNode.querySelector(".name").childNodes[0].textContent.trim()+".</strong> "+text;tip.style.display="block";const r=btn.getBoundingClientRect();let left=r.left+window.scrollX;const top=r.bottom+window.scrollY+8;const max=Math.min(262,window.innerWidth-24);tip.style.maxWidth=max+"px";if(left+max>window.scrollX+window.innerWidth-12)left=window.scrollX+window.innerWidth-12-max;if(left<window.scrollX+12)left=window.scrollX+12;tip.style.left=left+"px";tip.style.top=top+"px";}
+function showTip(btn,text){const nameEl=btn.parentNode?btn.parentNode.querySelector(".name"):null;const title=(nameEl&&nameEl.childNodes[0])?nameEl.childNodes[0].textContent.trim():"";tip.innerHTML=(title?"<strong>"+title+".</strong> ":"")+text;tip.style.display="block";const r=btn.getBoundingClientRect();let left=r.left+window.scrollX;const top=r.bottom+window.scrollY+8;const max=Math.min(262,window.innerWidth-24);tip.style.maxWidth=max+"px";if(left+max>window.scrollX+window.innerWidth-12)left=window.scrollX+window.innerWidth-12-max;if(left<window.scrollX+12)left=window.scrollX+12;tip.style.left=left+"px";tip.style.top=top+"px";}
 function hideTip(){tip.style.display="none";}
 function attachInfo(){document.querySelectorAll(".info").forEach(btn=>{const text=INFO[btn.dataset.id]||"";btn.addEventListener("mouseenter",()=>{if(!pinned)showTip(btn,text);});btn.addEventListener("mouseleave",()=>{if(pinned!==btn)hideTip();});btn.addEventListener("focus",()=>showTip(btn,text));btn.addEventListener("blur",()=>{if(pinned!==btn)hideTip();});btn.addEventListener("click",e=>{e.stopPropagation();if(pinned===btn){pinned=null;hideTip();}else{pinned=btn;showTip(btn,text);}});});}
 document.addEventListener("click",()=>{if(pinned){pinned=null;hideTip();}});
@@ -2125,7 +2213,7 @@ function histTotals(){const tot={};HIST.forEach(r=>{const v=parseFloat((""+(r.am
 function renderHist(){
   histDatalist();
   const tb=document.getElementById("hist-body");if(!tb)return;
-  if(!HIST.length){tb.innerHTML='<tr><td colspan="8" class="hist-empty">Sem registos. Clica em «+ Nova linha» para adicionares a tua primeira operação.</td></tr>';document.getElementById("hist-total").innerHTML="";renderUpdLabels();return;}
+  if(!HIST.length){tb.innerHTML='<tr><td colspan="8" class="hist-empty">Sem registos. Clica em «+ Nova linha» para adicionares a tua primeira operação.</td></tr>';document.getElementById("hist-total").innerHTML="";const _hp=document.getElementById("hist-positions");if(_hp)_hp.innerHTML="";renderUpdLabels();return;}
   const types=histTypes();
   tb.innerHTML=HIST.map((r,i)=>{
     const typeOpts=types.map(t=>'<option'+(t===r.type?' selected':'')+'>'+t+'</option>').join("")+'<option value="__add__">➕ Adicionar tipo…</option>';
@@ -2142,7 +2230,29 @@ function renderHist(){
       '<td><button class="hist-del" data-i="'+i+'" type="button" title="Remover" aria-label="Remover">&times;</button></td>'+
     '</tr>';
   }).join("");
-  histTotals();renderUpdLabels();
+  histTotals();renderUpdLabels();consolidateHist();
+}
+function consolidateHist(){
+  const host=document.getElementById("hist-positions");if(!host)return;
+  if(!HIST.length){host.innerHTML="";return;}
+  const map={};
+  HIST.forEach(r=>{
+    const name=(r.asset||"").trim();if(!name)return;
+    const key=name.toLowerCase(),cur=r.cur||"EUR",amt=parseFinance(r.amount,true),sign=(r.side==="venda")?-1:1;
+    if(!map[key])map[key]={name:name,type:r.type||"",ops:0,net:{}};
+    const m=map[key];m.ops++;m.net[cur]=(m.net[cur]||0)+sign*amt;if(r.type)m.type=r.type;
+  });
+  const rows=Object.values(map).sort((a,b)=>{const an=Object.values(a.net).reduce((s,v)=>s+v,0),bn=Object.values(b.net).reduce((s,v)=>s+v,0);return bn-an;});
+  const totals={};rows.forEach(r=>Object.keys(r.net).forEach(c=>totals[c]=(totals[c]||0)+r.net[c]));
+  const fmtC=(v,c)=>v.toLocaleString("pt-PT",{minimumFractionDigits:2,maximumFractionDigits:2})+" "+c;
+  let html='<div class="hp-head"><h4>Posições por ativo</h4><span class="hp-sub">montante líquido investido (compras − vendas)</span></div>';
+  html+='<div class="hp-table"><div class="hp-row hp-hd"><span>Ativo</span><span>Tipo</span><span class="hp-n">Ops</span><span class="hp-n">Investido líquido</span></div>';
+  rows.forEach(r=>{const netStr=Object.keys(r.net).map(c=>fmtC(r.net[c],c)).join(" · ");html+='<div class="hp-row"><span class="hp-name">'+esc(r.name)+'</span><span class="hp-type">'+esc(r.type||"—")+'</span><span class="hp-n">'+r.ops+'</span><span class="hp-n hp-val">'+netStr+'</span></div>';});
+  html+='</div>';
+  const totStr=Object.keys(totals).map(c=>fmtC(totals[c],c)).join(" · ");
+  html+='<div class="hp-total">Total investido líquido: <b>'+totStr+'</b></div>';
+  html+='<p class="hp-disc">Soma dos montantes registados (compras menos vendas) por ativo. Não reflete o <b>valor atual de mercado</b> nem inclui quantidade/preço médio — o histórico guarda apenas o montante de cada operação.</p>';
+  host.innerHTML=html;
 }
 (function(){
   const body=document.getElementById("hist-body");
@@ -2210,6 +2320,54 @@ function buildCalcChart(xs,dataI,dataS,dataC,years){
     dotS+dotC+yl+xl+"</svg>";
 }
 
+/* ====== Rastreador do objetivo (FIRE) ====== */
+function renderFire(){
+  const g=id=>{const el=document.getElementById(id);return el?el.value:"";};
+  const cur=Math.max(0,parseFinance(g("fi-cur"),true));
+  const goal=Math.max(1,parseFinance(g("fi-goal"),true));
+  const pmt=Math.max(0,parseFinance(g("fi-pmt"),true));
+  const rate=Math.max(0,parseFinance(g("fi-rate"),false))/100;
+  const tyear=Math.round(parseFinance(g("fi-year"),false))||0;
+  const rm=rate/12,now=new Date(),y0=now.getFullYear(),m0=now.getMonth();
+  const MES=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+  const pct=Math.max(0,Math.min(100,cur/goal*100));
+  const prog=document.getElementById("fire-progress");
+  if(prog)prog.innerHTML='<div class="fp-bar"><div class="fp-fill" style="width:'+pct.toFixed(1)+'%"></div></div><div class="fp-meta"><span class="fp-pct">'+pct.toLocaleString("pt-PT",{maximumFractionDigits:1})+'%</span><span>'+eur(cur)+' de '+eur(goal)+'</span></div>';
+  let bal=cur,months=0;const MAXM=100*12;
+  if(cur<goal){while(bal<goal&&months<MAXM){bal=bal*(1+rm)+pmt;months++;}}
+  const reached=cur>=goal,never=(!reached&&months>=MAXM);
+  const reachDate=new Date(y0,m0+months,1),reachYear=reachDate.getFullYear();
+  const anos=Math.floor(months/12),meses=months%12,quando=MES[reachDate.getMonth()]+"/"+reachYear;
+  const emQuanto=anos+" ano"+(anos!==1?"s":"")+(meses?" e "+meses+" m":"");
+  let cls,txt;
+  if(reached){cls="ontrack";txt="Objetivo alcançado — já superaste "+eur(goal)+". 🎉";}
+  else if(never){cls="never";txt="Com estes valores não chegas ao objetivo num horizonte razoável. Aumenta o aporte mensal ou revê o retorno estimado.";}
+  else if(tyear&&reachYear<=tyear){cls="ontrack";txt="No caminho para "+tyear+" — ao ritmo atual atinges "+eur(goal)+" em <b>"+quando+"</b> (daqui a "+emQuanto+").";}
+  else if(tyear){const dif=reachYear-tyear;cls="late";txt="Atrasado face a "+tyear+" — a projeção aponta para <b>"+quando+"</b> (~"+dif+" ano"+(dif!==1?"s":"")+" depois). Aumentar o aporte encurta o prazo.";}
+  else{cls="ontrack";txt="Ao ritmo atual atinges "+eur(goal)+" em <b>"+quando+"</b> (daqui a "+emQuanto+").";}
+  const vh=document.getElementById("fire-verdict");
+  if(vh)vh.innerHTML='<div class="fire-verdict '+cls+'"><span class="fv-dot"></span><span>'+txt+'</span></div>';
+  const pmTarget=Math.max(0,(tyear-y0)*12+(11-m0));let pv=cur;for(let i=0;i<pmTarget;i++)pv=pv*(1+rm)+pmt;
+  const out=document.getElementById("fire-out");
+  if(out)out.innerHTML=cstat("inv","Falta para o objetivo",eur(Math.max(0,goal-cur)))+cstat("comp","Projeção para "+(tyear||"—"),eur(pv))+cstat("simp","Aporte anual",eur(pmt*12));
+  const ch=document.getElementById("fire-chart");
+  if(ch)ch.innerHTML=buildFireChart(cur,goal,pmt,rm,tyear,reached?y0:reachYear);
+  try{store.set("af_fire",{cur:g("fi-cur"),goal:g("fi-goal"),pmt:g("fi-pmt"),rate:g("fi-rate"),year:g("fi-year")});}catch(e){}
+}
+function buildFireChart(cur,goal,pmt,rm,tyear,reachYear){
+  const now=new Date(),y0=now.getFullYear();
+  const endYear=Math.min(y0+50,Math.max(reachYear||y0,tyear||y0,y0+1)+1),N=Math.max(1,endYear-y0);
+  let b=cur;const vals=[cur];for(let k=1;k<=N;k++){for(let m=0;m<12;m++)b=b*(1+rm)+pmt;vals.push(b);}
+  const W=680,H=280,pl=58,pr=16,ptp=16,pb=28,iw=W-pl-pr,ih=H-ptp-pb;
+  const nm=niceCeil(Math.max(goal,...vals,1)),X=k=>pl+(k/N)*iw,Y=v=>ptp+ih-(v/nm)*ih;
+  let grid="",yl="";for(let gi=0;gi<=4;gi++){const val=nm*gi/4,yy=Y(val);grid+='<line class="cx-grid" x1="'+pl+'" y1="'+yy+'" x2="'+(W-pr)+'" y2="'+yy+'"/>';yl+='<text class="cx-yl" x="'+(pl-8)+'" y="'+(yy+3)+'">'+eurShort(val)+"</text>";}
+  const step=N<=10?1:N<=24?2:5;let xl="";for(let k=0;k<=N;k+=step){const xx=X(k);xl+='<text class="cx-xl" x="'+xx+'" y="'+(H-9)+'">'+(y0+k)+"</text>";}
+  const line=vals.map((v,i)=>X(i)+","+Y(v)).join(" "),area=X(0)+","+Y(0)+" "+line+" "+X(N)+","+Y(0);
+  const gy=Y(Math.min(goal,nm)),goalEl='<line class="cx-goal" x1="'+pl+'" y1="'+gy+'" x2="'+(W-pr)+'" y2="'+gy+'"/><text class="cx-goal-lb" x="'+(W-pr)+'" y="'+(gy-5)+'" text-anchor="end">objetivo '+eurShort(goal)+'</text>';
+  let tEl="";if(tyear&&tyear>=y0&&tyear<=y0+N){const tx=X(tyear-y0);tEl='<line class="cx-target" x1="'+tx+'" y1="'+ptp+'" x2="'+tx+'" y2="'+(ptp+ih)+'"/><text class="cx-target-lb" x="'+tx+'" y="'+(ptp+9)+'" text-anchor="middle">'+tyear+'</text>';}
+  return '<svg class="cx-svg" viewBox="0 0 '+W+" "+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Projeção do objetivo FIRE">'+grid+'<line class="cx-axis" x1="'+pl+'" y1="'+Y(0)+'" x2="'+(W-pr)+'" y2="'+Y(0)+'"/><polygon class="cx-areaC" points="'+area+'"/><polyline class="cx-lineC" points="'+line+'"/>'+goalEl+tEl+yl+xl+"</svg>";
+}
+
 /* ====== Cópia de segurança (exportar/importar tudo) ====== */
 function collectBackup(){const d={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf("af_")===0)d[k]=localStorage.getItem(k);}}catch(e){}return d;}
 function exportBackup(){
@@ -2243,8 +2401,52 @@ const _st=store.get("af_stock");
 if(_st){if(_st.raw)Object.assign(RAW,_st.raw);if(_st.ticker){CUR.ticker=_st.ticker;CUR.empresa=_st.empresa||"";document.getElementById("sel-ticker").textContent=_st.ticker||"—";document.getElementById("sel-empresa").textContent=_st.empresa||"Escolhe uma empresa";}if(_st.periodo)document.getElementById("periodo").value=_st.periodo;}
 buildRaw();buildGroups();compute();updateSALinks();
 (function(){const _c=store.get("af_calc");if(_c)["p0","pmt","rate","years"].forEach(k=>{const el=document.getElementById("ci-"+k);if(el&&_c[k]!=null&&_c[k]!=="")el.value=_c[k];});["ci-p0","ci-pmt","ci-rate","ci-years"].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener("input",calcJuros);});if(typeof calcJuros==="function")calcJuros();})();
+(function(){const _f=store.get("af_fire");if(_f){const map={cur:"fi-cur",goal:"fi-goal",pmt:"fi-pmt",rate:"fi-rate",year:"fi-year"};Object.keys(map).forEach(k=>{const el=document.getElementById(map[k]);if(el&&_f[k]!=null&&_f[k]!=="")el.value=_f[k];});}["fi-cur","fi-goal","fi-pmt","fi-rate","fi-year"].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener("input",renderFire);});if(typeof renderFire==="function")renderFire();})();
 (function(){const ex=document.getElementById("bkp-export"),ib=document.getElementById("bkp-import-btn"),bf=document.getElementById("bkp-file");if(ex)ex.addEventListener("click",exportBackup);if(ib&&bf)ib.addEventListener("click",()=>bf.click());if(bf)bf.addEventListener("change",e=>{if(e.target.files&&e.target.files[0])importBackup(e.target.files[0]);e.target.value="";});})();
 (function(){const wc=document.getElementById("warn-close");if(wc){wc.checked=!!store.get("af_warn_close");wc.addEventListener("change",()=>store.set("af_warn_close",wc.checked));}window.addEventListener("beforeunload",e=>{if(window._appReloading)return;if(store.get("af_warn_close")&&store.get("af_session")){e.preventDefault();e.returnValue="";}});})();
+const APP_VERSION="v22";
+(function(){
+  const v=document.getElementById("app-ver");if(v)v.textContent="Bússola "+APP_VERSION;
+  const banner=document.getElementById("update-banner"),rl=document.getElementById("update-reload"),dm=document.getElementById("update-dismiss");
+  if(rl)rl.addEventListener("click",()=>{window._appReloading=true;location.reload();});
+  if(dm&&banner)dm.addEventListener("click",()=>banner.classList.remove("show"));
+  let notified=false;
+  function checkForUpdate(){if(notified||!banner)return;try{fetch(location.href.split(/[?#]/)[0],{cache:"no-store"}).then(r=>(r&&r.ok)?r.text():null).then(t=>{if(!t)return;const m=t.match(/name="app-version"\s+content="([^"]+)"/);if(m&&m[1]&&m[1]!==APP_VERSION){notified=true;banner.classList.add("show");}}).catch(()=>{});}catch(e){}}
+  setTimeout(checkForUpdate,4000);
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkForUpdate();});
+})();
+
+/* ====== Novidades (what's new) ====== */
+const CHANGELOG=[
+  {v:"v22", items:[
+    {t:"<b>Rastreador do objetivo (FIRE)</b> no histórico — mostra o progresso até à tua meta e projeta em que ano lá chegas, com base no valor atual e no aporte mensal.", sel:"#fire-tracker"}
+  ]},
+  {v:"v21", items:[
+    {t:"<b>Posições por ativo</b> no histórico — consolida as tuas operações e mostra o montante líquido investido em cada ativo.", sel:"#hist-positions"}
+  ]},
+  {v:"v20", items:[
+    {t:"<b>Aviso de nova versão</b> — a app avisa-te quando há atualização, sem recarregar à mão."},
+    {t:"<b>Novidades destacadas</b> — as mudanças relevantes aparecem aqui e realçadas na app."},
+    {t:"<b>Calculadora de juros compostos</b> na análise de ações, com gráfico simples vs compostos.", sel:"#calc-juros"},
+    {t:"<b>Cópia de segurança</b> (exportar/importar tudo) e <b>aviso ao fechar</b> nas Definições."},
+    {t:"<b>Colar valores da Seeking Alpha</b> direto nas células amarelas (formato 81,288.0)."},
+    {t:"<b>Marca de água</b> reposicionada no topo, mais equilibrada.", sel:".app-wm"}
+  ]}
+];
+function wnNum(v){return parseInt((""+v).replace(/[^0-9]/g,""),10)||0;}
+function wnCollect(since){const out=[];CHANGELOG.forEach(e=>{if(wnNum(e.v)>wnNum(since))e.items.forEach(it=>out.push(it));});return out;}
+function wnClearGlow(){document.querySelectorAll(".wn-glow").forEach(el=>el.classList.remove("wn-glow"));}
+function wnApplyGlow(items){wnClearGlow();items.forEach(it=>{if(it.sel){try{document.querySelectorAll(it.sel).forEach(el=>el.classList.add("wn-glow"));}catch(e){}}});}
+function openWhatsNew(items,verLabel){const list=document.getElementById("wn-list");if(!list)return;list.innerHTML=items.map(it=>"<li>"+it.t+"</li>").join("");const vv=document.getElementById("wn-ver");if(vv)vv.textContent=verLabel||APP_VERSION;document.getElementById("wn-overlay").classList.add("show");wnApplyGlow(items);}
+(function(){
+  const ov=document.getElementById("wn-overlay"),ok=document.getElementById("wn-ok"),see=document.getElementById("see-whatsnew");
+  if(ok)ok.addEventListener("click",()=>{if(ov)ov.classList.remove("show");});
+  if(ov)ov.addEventListener("click",e=>{if(e.target===ov)ov.classList.remove("show");});
+  if(see)see.addEventListener("click",()=>{if(typeof closeSettings==="function")closeSettings();const latest=CHANGELOG[0];openWhatsNew(latest.items,latest.v);});
+  const seen=store.get("af_seen_version");
+  if(seen==null){store.set("af_seen_version",APP_VERSION);}
+  else if(wnNum(seen)<wnNum(APP_VERSION)){const items=wnCollect(seen);if(items.length)setTimeout(()=>openWhatsNew(items,APP_VERSION),900);store.set("af_seen_version",APP_VERSION);}
+})();
 if(_st&&_st.isETF){let _e=isETF(_st.etfKey||_st.ticker);if(!_e){const kk=(_st.etfKey||"").toUpperCase();const looksIsin=/^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(kk);_e={s:_st.ticker||"ETF",n:_st.empresa||_st.ticker||"ETF (personalizado)",isin:looksIsin?kk:"",issuer:"",index:"",ter:"",dist:"",dom:"",hold:"",issuerUrl:""};}enterETF(_e);}
 buildMonths();renderBudget();
 loadProfile();
