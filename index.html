@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#134E6F">
-<meta name="app-version" content="v22">
+<meta name="app-version" content="v28">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -476,6 +476,16 @@
   .wn-list li::before{content:"🧭"; position:absolute; left:0; top:0; font-size:12px;}
   .wn-list li small{display:block; color:var(--faint); font-size:11.5px; margin-top:2px;}
   .wn-box .btn-primary{width:100%;}
+  .wn-list li.wn-clk{cursor:pointer;} .wn-list li.wn-clk:hover{color:var(--accent);}
+  .wn-list li.wn-clk::after{content:" 🔍"; font-size:11px;}
+  .wn-spot{position:relative; z-index:60; border-radius:12px; outline:2px solid var(--accent); transform:scale(1.03); transition:transform .3s ease; animation:wnspot 1.5s ease-in-out infinite;}
+  @keyframes wnspot{0%,100%{box-shadow:0 0 0 5px rgba(15,163,127,.18),0 10px 34px rgba(15,163,127,.24);}50%{box-shadow:0 0 0 9px rgba(15,163,127,.32),0 14px 46px rgba(15,163,127,.4);}}
+  .wn-bubble{position:fixed; left:50%; transform:translateX(-50%); bottom:24px; z-index:215; background:var(--ink); color:var(--bg); border-radius:13px; padding:13px 15px; max-width:470px; width:calc(100% - 32px); box-shadow:0 18px 48px rgba(0,0,0,.45); display:flex; gap:12px; align-items:flex-start; font-size:13px; line-height:1.5; animation:pop .25s ease;}
+  .wn-bubble .wn-bub-txt{flex:1;} .wn-bubble .wn-bub-txt b{color:#fff;}
+  .wn-bubble .wn-bub-acts{display:flex; gap:6px; align-items:center; flex:none;}
+  .wn-bubble button{border:none; cursor:pointer; font-weight:700; font-size:12.5px; border-radius:8px; padding:6px 12px;}
+  .wn-bubble .wn-next{background:var(--accent); color:#fff;}
+  .wn-bubble .wn-bub-x{background:transparent; color:rgba(255,255,255,.7); padding:6px 8px; font-size:14px;}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
   .toast .ti{flex:none; margin-top:1px;}
   /* settings / perfil (#3) */
@@ -505,7 +515,7 @@
   select.h-side{font-weight:700; border-radius:8px;}
   select.h-side.buy{background:rgba(15,163,127,.16); border-color:rgba(15,163,127,.55); color:var(--good);}
   select.h-side.sell{background:rgba(224,49,49,.16); border-color:rgba(224,49,49,.55); color:var(--bad);}
-  #panel-hist.hide-vals .h-amount,#panel-hist.hide-vals .hist-total b{filter:blur(7px); transition:filter .2s; user-select:none;}
+  #panel-hist.hide-vals .h-amount,#panel-hist.hide-vals .hist-total b,#panel-hist.hide-vals .hp-val,#panel-hist.hide-vals .hp-total b{filter:blur(7px); transition:filter .2s; user-select:none;}
   .modal-overlay.show{display:flex;}
   .modal{background:var(--card); border-radius:18px; width:100%; max-width:520px; padding:26px 26px 22px; position:relative; box-shadow:0 24px 70px rgba(0,0,0,.45); max-height:90vh; overflow-y:auto; border:1px solid var(--hairline);}
   .modal h2{font-family:"Archivo"; font-weight:800; font-size:21px; margin:0 0 3px;}
@@ -627,7 +637,31 @@
   .cx-target-lb{fill:var(--warn); font-size:9.5px; font-weight:700;}
   .calc-disc{font-size:11px; color:var(--faint); line-height:1.5; margin:0;}
   .fire-inputs{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));}
-  .fire-progress{margin:2px 0 16px;}
+  .etfcmp-picks{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px;}
+  .etfcmp-picks select{width:100%; border:1px solid var(--hairline-strong); border-radius:9px; padding:9px 11px; background:var(--card); color:var(--ink); font-size:12px; font-weight:600; font-family:inherit; cursor:pointer;}
+  .ec-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+  .ec-table{width:100%; border-collapse:collapse; font-size:13px; min-width:420px;}
+  .ec-table th,.ec-table td{padding:9px 11px; text-align:left; border-bottom:1px solid var(--hairline); vertical-align:top;}
+  .ec-table thead th{font-size:13.5px; font-weight:800; color:var(--ink); border-bottom:2px solid var(--hairline-strong); white-space:nowrap;}
+  .ec-table thead th small{display:block; font-weight:500; font-size:10px; color:var(--faint); font-family:"JetBrains Mono",monospace;}
+  .ec-table thead th:first-child{width:34%;}
+  .ec-lbl{font-weight:600; color:var(--muted); font-size:12px;}
+  .ec-best{background:rgba(15,163,127,.10); font-weight:800; color:var(--accent);}
+  .ec-best::after{content:" ✓";}
+  .ec-tone{font-weight:700;} .ec-good{color:var(--good);} .ec-warn{color:var(--warn);} .ec-bad{color:var(--bad);} .ec-info{color:var(--muted);}
+  .ec-empty{font-size:13px; color:var(--muted); text-align:center; padding:16px;}
+  @media(max-width:560px){.etfcmp-picks{grid-template-columns:1fr;}}
+  .cmp-tabs{display:flex; gap:6px; margin-bottom:16px; background:rgba(127,127,127,.09); padding:4px; border-radius:10px; width:fit-content;}
+  .cmp-tab{border:none; background:transparent; cursor:pointer; padding:6px 18px; border-radius:8px; font-weight:700; font-size:13px; color:var(--muted); font-family:inherit;}
+  .cmp-tab.active{background:var(--card); color:var(--ink); box-shadow:var(--shadow);}
+  .stk-grid{display:flex; flex-direction:column; gap:8px; min-width:420px;}
+  .stk-row{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:8px; align-items:center;}
+  .stk-lbl{font-size:12px; color:var(--muted); font-weight:600;}
+  .stk-hd .stk-lbl{color:var(--ink); font-weight:800;}
+  .stk-row input{border:1px solid var(--hairline-strong); border-radius:8px; padding:7px 10px; background:var(--card); color:var(--ink); font-size:13px; font-family:"JetBrains Mono",monospace; text-align:right; width:100%; min-width:0;}
+  .stk-ticker{text-align:left !important; font-family:inherit !important; font-weight:700; text-transform:uppercase;}
+  .stk-in.stk-best{border-color:var(--accent); background:rgba(15,163,127,.12); color:var(--accent); font-weight:800;}
+  .cmp-help{margin-top:16px;} .cmp-help summary{cursor:pointer; font-size:12px; color:var(--muted); font-weight:700;} .cmp-help>div{font-size:11.5px; color:var(--faint); line-height:1.55; margin-top:8px;}  .fire-progress{margin:2px 0 16px;}
   .fp-bar{height:16px; border-radius:999px; background:rgba(127,127,127,.16); overflow:hidden; position:relative;}
   .fp-fill{height:100%; border-radius:999px; background:linear-gradient(90deg,var(--brand-2),var(--accent)); transition:width .5s ease; min-width:2px;}
   .fp-meta{display:flex; justify-content:space-between; align-items:baseline; font-size:12px; color:var(--muted); margin-top:7px; gap:10px;}
@@ -779,6 +813,29 @@
         </div>
         <div class="calc-chart" id="calc-chart"></div>
         <p class="calc-disc">Simulação com capitalização mensal e aportes no fim de cada mês. Nos <b>juros simples</b> os juros incidem só sobre o capital investido; nos <b>compostos</b> os juros passam a render juros — daí a diferença crescer com o tempo. Rendibilidade constante e hipotética; não considera inflação, impostos nem comissões. Informativo, não é aconselhamento financeiro.</p>
+      </div>
+    </details>
+
+    <details class="calc etfcmp" id="etf-compare" open>
+      <summary>Comparar investimentos <span class="hint">ETFs ou ações, lado a lado</span>
+        <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg></summary>
+      <div class="calc-body">
+        <div class="cmp-tabs">
+          <button class="cmp-tab active" type="button" data-cmp="etf">ETFs</button>
+          <button class="cmp-tab" type="button" data-cmp="stk">Ações</button>
+        </div>
+        <div class="cmp-pane" id="cmp-etf">
+          <div class="etfcmp-picks">
+            <select id="ec-a" aria-label="ETF A"></select>
+            <select id="ec-b" aria-label="ETF B"></select>
+            <select id="ec-c" aria-label="ETF C (opcional)"></select>
+          </div>
+          <div class="ec-wrap" id="etfcmp-out"></div>
+        </div>
+        <div class="cmp-pane" id="cmp-stk" hidden>
+          <div class="ec-wrap"><div id="stkcmp-grid"></div></div>
+          <datalist id="stk-tk-list"></datalist>
+        </div>
       </div>
     </details>
 
@@ -1812,7 +1869,7 @@ async function hashSecret(s){try{if(window.crypto&&crypto.subtle){const b=await 
 function segVal(id){const b=document.querySelector("#"+id+" .on");return b?b.dataset.v:null;}
 function setAvatar(){const a=document.getElementById("avatar");if(avatarData){a.style.backgroundImage="url("+avatarData+")";a.textContent="";}else{a.style.backgroundImage="";}}
 function applyProfile(pr){if(!pr)return;if(pr.avatar)avatarData=pr.avatar;setAvatar();if(!avatarData)document.getElementById("avatar").textContent=initials(pr.nome);if(pr.nome){document.getElementById("pb-text").childNodes[0].nodeValue=pr.nome.trim().split(/\s+/)[0];document.getElementById("pb-sub").textContent="ver conta";}}
-function sessionOn(acc){if(typeof exitGuest==="function")exitGuest();const pr=store.get("af_profile")||{};document.getElementById("pb-text").childNodes[0].nodeValue=pr.nome?pr.nome.trim().split(/\s+/)[0]:acc.id;document.getElementById("pb-sub").textContent="sessão iniciada";if(!avatarData)document.getElementById("avatar").textContent=initials(pr.nome);document.getElementById("logout-btn").hidden=false;document.getElementById("login-note").textContent="Sessão iniciada como "+acc.id+".";startIdle();}
+function sessionOn(acc){if(typeof exitGuest==="function")exitGuest();const pr=store.get("af_profile")||{};document.getElementById("pb-text").childNodes[0].nodeValue=pr.nome?pr.nome.trim().split(/\s+/)[0]:acc.id;document.getElementById("pb-sub").textContent="sessão iniciada";if(!avatarData)document.getElementById("avatar").textContent=initials(pr.nome);document.getElementById("logout-btn").hidden=false;document.getElementById("login-note").textContent="Sessão iniciada como "+acc.id+".";startIdle();if(typeof maybeShowWhatsNew==="function")setTimeout(maybeShowWhatsNew,300);}
 function loadProfile(){const pr=store.get("af_profile");if(pr){PF.forEach(k=>{const el=document.getElementById("p-"+k);if(el&&pr[k]!=null)el.value=pr[k];});applyProfile(pr);}const acc=store.get("af_account");if(acc){if(store.get("af_remember_id")){document.getElementById("login-id").value=acc.id;document.getElementById("rem-id").checked=true;}const sv=store.get("af_saved_secret");if(sv){document.getElementById("login-secret").value=sv;document.getElementById("rem-secret").checked=true;}if(store.get("af_session"))sessionOn(acc);}}
 function openModal(){modal.classList.add("show");if(wrapEl)wrapEl.style.display="none";}
 function closeModal(){modal.classList.remove("show");if(wrapEl)wrapEl.style.display="";}
@@ -2368,6 +2425,55 @@ function buildFireChart(cur,goal,pmt,rm,tyear,reachYear){
   return '<svg class="cx-svg" viewBox="0 0 '+W+" "+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Projeção do objetivo FIRE">'+grid+'<line class="cx-axis" x1="'+pl+'" y1="'+Y(0)+'" x2="'+(W-pr)+'" y2="'+Y(0)+'"/><polygon class="cx-areaC" points="'+area+'"/><polyline class="cx-lineC" points="'+line+'"/>'+goalEl+tEl+yl+xl+"</svg>";
 }
 
+/* ====== Comparação de ETFs ====== */
+function etfCompareOptions(sel){return '<option value="">—</option>'+etfAll().map(e=>'<option value="'+etfKey(e)+'"'+(sel===etfKey(e)?' selected':'')+'>'+esc(e.s)+' — '+esc(e.n)+'</option>').join("");}
+function ecBestMin(arr){let bi=-1,bv=Infinity;arr.forEach((v,i)=>{if(!isNaN(v)&&v<bv){bv=v;bi=i;}});if(bi<0)return -1;return arr.filter(v=>!isNaN(v)&&v===bv).length===1?bi:-1;}
+function ecBestMax(arr){let bi=-1,bv=-Infinity;arr.forEach((v,i)=>{if(!isNaN(v)&&v>bv){bv=v;bi=i;}});if(bi<0)return -1;return arr.filter(v=>!isNaN(v)&&v===bv).length===1?bi:-1;}
+function renderETFCompare(){
+  const out=document.getElementById("etfcmp-out");if(!out)return;
+  const keys=["ec-a","ec-b","ec-c"].map(id=>{const el=document.getElementById(id);return el?el.value:"";}).filter(Boolean);
+  const uniq=keys.filter((k,i)=>keys.indexOf(k)===i);
+  const etfs=uniq.map(k=>etfAll().find(e=>etfKey(e)===k)).filter(Boolean);
+  if(etfs.length<2){out.innerHTML='<p class="ec-empty">Escolhe pelo menos <b>dois</b> ETFs para comparar.</p>';return;}
+  const cols=etfs.map(e=>{const v=getETFVals(e);return {e:e,v:v,A:assessETF(v)};});
+  let html='<table class="ec-table"><thead><tr><th>Critério</th>'+cols.map(c=>'<th>'+esc(c.e.s)+'<small>'+esc(c.e.isin||"")+'</small></th>').join("")+'</tr></thead><tbody>';
+  function addRow(label,cells,bestIdx){html+='<tr><td class="ec-lbl">'+label+'</td>'+cells.map((cell,i)=>'<td'+(i===bestIdx?' class="ec-best"':'')+'>'+cell+'</td>').join("")+'</tr>';}
+  addRow("Índice",cols.map(c=>esc(c.v.index||"—")));
+  addRow("TER (custo anual)",cols.map(c=>c.v.ter?esc(c.v.ter)+"%":"—"),ecBestMin(cols.map(c=>etfNum(c.v.ter))));
+  addRow("Nº de posições",cols.map(c=>c.v.hold?esc(c.v.hold):"—"),ecBestMax(cols.map(c=>etfNum(c.v.hold))));
+  addRow("Domicílio",cols.map(c=>esc(c.v.dom||"—")));
+  addRow("Distribuição",cols.map(c=>esc(c.v.dist||"—")));
+  addRow("Dividend yield",cols.map(c=>c.v.yield?esc(c.v.yield)+"%":"—"));
+  addRow("Valorização",cols.map(c=>c.A.val?'<span class="ec-tone ec-'+c.A.val.tone+'">'+esc(c.A.val.label)+'</span>':"—"));
+  addRow("Papel na carteira",cols.map(c=>c.A.role?esc(c.A.role.label):"—"));
+  html+='</tbody></table>';
+  out.innerHTML=html;
+}
+
+/* ====== Comparação de ações ====== */
+const STKCMP_ROWS=[
+  {k:"pe",label:"P/L (P/E)",dir:"min"},
+  {k:"roe",label:"ROE (%)",dir:"max"},
+  {k:"nm",label:"Margem líquida (%)",dir:"max"},
+  {k:"nde",label:"Dívida / EBITDA",dir:"min"},
+  {k:"dy",label:"Dividend yield (%)",dir:"max"}
+];
+function renderStkCompare(){
+  const host=document.getElementById("stkcmp-grid");if(!host)return;
+  const data=store.get("af_stkcmp")||{tickers:["","",""],vals:{}};
+  let html='<div class="stk-row stk-hd"><span class="stk-lbl">Ticker</span>'+[0,1,2].map(i=>'<input class="stk-ticker" list="stk-tk-list" data-c="'+i+'" value="'+esc((data.tickers&&data.tickers[i])||"")+'" placeholder="ex.: AAPL" autocomplete="off">').join("")+'</div>';
+  STKCMP_ROWS.forEach(r=>{html+='<div class="stk-row" data-k="'+r.k+'"><span class="stk-lbl">'+r.label+'</span>'+[0,1,2].map(i=>'<input class="stk-in" data-k="'+r.k+'" data-c="'+i+'" inputmode="decimal" value="'+esc(((data.vals&&data.vals[r.k])||[])[i]||"")+'">').join("")+'</div>';});
+  host.innerHTML=html;stkHighlight();
+}
+function stkReadAll(){const tickers=[0,1,2].map(i=>{const el=document.querySelector('.stk-ticker[data-c="'+i+'"]');return el?el.value:"";});const vals={};STKCMP_ROWS.forEach(r=>{vals[r.k]=[0,1,2].map(i=>{const el=document.querySelector('.stk-in[data-k="'+r.k+'"][data-c="'+i+'"]');return el?el.value:"";});});return {tickers:tickers,vals:vals};}
+function stkHighlight(){STKCMP_ROWS.forEach(r=>{const cells=[0,1,2].map(i=>document.querySelector('.stk-in[data-k="'+r.k+'"][data-c="'+i+'"]'));const nums=cells.map(el=>el?parseFinance(el.value,false):NaN);const bi=(r.dir==="min")?ecBestMin(nums):ecBestMax(nums);cells.forEach((el,i)=>{if(el)el.classList.toggle("stk-best",i===bi);});});}
+function fillStkTickerList(){const dl=document.getElementById("stk-tk-list");if(!dl)return;const seen={};let opts="";(typeof STOCKS!=="undefined"?STOCKS:[]).forEach(s=>{if(s&&s.s&&!seen[s.s]){seen[s.s]=1;opts+='<option value="'+esc(s.s)+'">'+esc(s.n||"")+'</option>';}});(typeof etfAll==="function"?etfAll():[]).forEach(e=>{if(e&&e.s&&!seen[e.s]){seen[e.s]=1;opts+='<option value="'+esc(e.s)+'">'+esc(e.n||"")+' (ETF)</option>';}});dl.innerHTML=opts;}
+(function(){
+  document.querySelectorAll(".cmp-tab").forEach(t=>t.addEventListener("click",()=>{document.querySelectorAll(".cmp-tab").forEach(x=>x.classList.remove("active"));t.classList.add("active");const w=t.dataset.cmp;const pe=document.getElementById("cmp-etf"),ps=document.getElementById("cmp-stk");if(pe)pe.hidden=w!=="etf";if(ps)ps.hidden=w!=="stk";}));
+  fillStkTickerList();
+  const pane=document.getElementById("cmp-stk");if(pane){renderStkCompare();pane.addEventListener("input",e=>{if(!e.target.classList.contains("stk-in")&&!e.target.classList.contains("stk-ticker"))return;try{store.set("af_stkcmp",stkReadAll());}catch(x){}stkHighlight();});}
+})();
+
 /* ====== Cópia de segurança (exportar/importar tudo) ====== */
 function collectBackup(){const d={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf("af_")===0)d[k]=localStorage.getItem(k);}}catch(e){}return d;}
 function exportBackup(){
@@ -2402,9 +2508,10 @@ if(_st){if(_st.raw)Object.assign(RAW,_st.raw);if(_st.ticker){CUR.ticker=_st.tick
 buildRaw();buildGroups();compute();updateSALinks();
 (function(){const _c=store.get("af_calc");if(_c)["p0","pmt","rate","years"].forEach(k=>{const el=document.getElementById("ci-"+k);if(el&&_c[k]!=null&&_c[k]!=="")el.value=_c[k];});["ci-p0","ci-pmt","ci-rate","ci-years"].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener("input",calcJuros);});if(typeof calcJuros==="function")calcJuros();})();
 (function(){const _f=store.get("af_fire");if(_f){const map={cur:"fi-cur",goal:"fi-goal",pmt:"fi-pmt",rate:"fi-rate",year:"fi-year"};Object.keys(map).forEach(k=>{const el=document.getElementById(map[k]);if(el&&_f[k]!=null&&_f[k]!=="")el.value=_f[k];});}["fi-cur","fi-goal","fi-pmt","fi-rate","fi-year"].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener("input",renderFire);});if(typeof renderFire==="function")renderFire();})();
+(function(){const a=document.getElementById("ec-a"),b=document.getElementById("ec-b"),c=document.getElementById("ec-c");if(!a||!b||!c)return;const sv=store.get("af_etfcmp")||{};a.innerHTML=etfCompareOptions(sv.a||etfKey(ETFS[0]));b.innerHTML=etfCompareOptions(sv.b||etfKey(ETFS[3]||ETFS[1]));c.innerHTML=etfCompareOptions(sv.c||"");[a,b,c].forEach(sel=>sel.addEventListener("change",()=>{store.set("af_etfcmp",{a:a.value,b:b.value,c:c.value});renderETFCompare();}));if(typeof renderETFCompare==="function")renderETFCompare();})();
 (function(){const ex=document.getElementById("bkp-export"),ib=document.getElementById("bkp-import-btn"),bf=document.getElementById("bkp-file");if(ex)ex.addEventListener("click",exportBackup);if(ib&&bf)ib.addEventListener("click",()=>bf.click());if(bf)bf.addEventListener("change",e=>{if(e.target.files&&e.target.files[0])importBackup(e.target.files[0]);e.target.value="";});})();
 (function(){const wc=document.getElementById("warn-close");if(wc){wc.checked=!!store.get("af_warn_close");wc.addEventListener("change",()=>store.set("af_warn_close",wc.checked));}window.addEventListener("beforeunload",e=>{if(window._appReloading)return;if(store.get("af_warn_close")&&store.get("af_session")){e.preventDefault();e.returnValue="";}});})();
-const APP_VERSION="v22";
+const APP_VERSION="v28";
 (function(){
   const v=document.getElementById("app-ver");if(v)v.textContent="Bússola "+APP_VERSION;
   const banner=document.getElementById("update-banner"),rl=document.getElementById("update-reload"),dm=document.getElementById("update-dismiss");
@@ -2418,6 +2525,19 @@ const APP_VERSION="v22";
 
 /* ====== Novidades (what's new) ====== */
 const CHANGELOG=[
+  {v:"v28", items:[
+    {t:"<b>Sugestões de ticker</b> na comparação de ações — começas a escrever e aparecem as empresas conhecidas para escolheres."}
+  ]},
+  {v:"v25", items:[
+    {t:"<b>Comparar ações</b> — a comparação passa a ter abas <b>ETFs / Ações</b>; na aba de ações colas os rácios-chave (P/L, ROE, margem, dívida/EBITDA, yield) e a app assinala a melhor de cada.", sel:"#etf-compare", spot:"A comparação tem agora duas abas — ETFs e Ações. Na aba «Ações» introduzes os rácios de 2-3 ações e vês a melhor em cada critério.", important:true}
+  ]},
+  {v:"v24", items:[
+    {t:"<b>Novidades com destaque guiado</b> — ao entrares, as novidades aparecem e a app leva-te à zona que mudou, com zoom e uma breve descrição."},
+    {t:"<b>Privacidade:</b> as «posições por ativo» passam a ficar ocultas com os restantes valores no modo privado ou ao fim de 2 min inativo."}
+  ]},
+  {v:"v23", items:[
+    {t:"<b>Comparar ETFs</b> na análise de ações — escolhe 2 ou 3 e vê-os lado a lado (custo, diversificação, domicílio, valorização), com o melhor de cada critério assinalado.", sel:"#etf-compare"}
+  ]},
   {v:"v22", items:[
     {t:"<b>Rastreador do objetivo (FIRE)</b> no histórico — mostra o progresso até à tua meta e projeta em que ano lá chegas, com base no valor atual e no aporte mensal.", sel:"#fire-tracker"}
   ]},
@@ -2437,15 +2557,40 @@ function wnNum(v){return parseInt((""+v).replace(/[^0-9]/g,""),10)||0;}
 function wnCollect(since){const out=[];CHANGELOG.forEach(e=>{if(wnNum(e.v)>wnNum(since))e.items.forEach(it=>out.push(it));});return out;}
 function wnClearGlow(){document.querySelectorAll(".wn-glow").forEach(el=>el.classList.remove("wn-glow"));}
 function wnApplyGlow(items){wnClearGlow();items.forEach(it=>{if(it.sel){try{document.querySelectorAll(it.sel).forEach(el=>el.classList.add("wn-glow"));}catch(e){}}});}
-function openWhatsNew(items,verLabel){const list=document.getElementById("wn-list");if(!list)return;list.innerHTML=items.map(it=>"<li>"+it.t+"</li>").join("");const vv=document.getElementById("wn-ver");if(vv)vv.textContent=verLabel||APP_VERSION;document.getElementById("wn-overlay").classList.add("show");wnApplyGlow(items);}
-(function(){
-  const ov=document.getElementById("wn-overlay"),ok=document.getElementById("wn-ok"),see=document.getElementById("see-whatsnew");
-  if(ok)ok.addEventListener("click",()=>{if(ov)ov.classList.remove("show");});
-  if(ov)ov.addEventListener("click",e=>{if(e.target===ov)ov.classList.remove("show");});
-  if(see)see.addEventListener("click",()=>{if(typeof closeSettings==="function")closeSettings();const latest=CHANGELOG[0];openWhatsNew(latest.items,latest.v);});
+function openWhatsNew(items,verLabel){const list=document.getElementById("wn-list");if(!list)return;WN_ITEMS=items.slice();list.innerHTML=items.map((it,i)=>"<li"+(it.sel?' class="wn-clk" data-i="'+i+'"':"")+">"+it.t+"</li>").join("");const vv=document.getElementById("wn-ver");if(vv)vv.textContent=verLabel||APP_VERSION;document.getElementById("wn-overlay").classList.add("show");wnApplyGlow(items);}
+let WN_ITEMS=[],WN_TOUR=[],WN_TI=0;
+function wnTabOf(el){if(!el)return null;if(el.closest("#panel-hist"))return "hist";if(el.closest("#panel-budget"))return "budget";if(el.closest("#panel-stocks"))return "stocks";return null;}
+function wnClearSpot(){document.querySelectorAll(".wn-spot").forEach(e=>e.classList.remove("wn-spot"));const b=document.getElementById("wn-bubble");if(b)b.remove();WN_TOUR=[];}
+function wnSpotlight(it,hasNext){
+  const el=document.querySelector(it.sel);if(!el){if(hasNext)wnNextSpot();return;}
+  const tab=wnTabOf(el),tb=tab?document.querySelector('.tab[data-tab="'+tab+'"]'):null;
+  if(tb&&!tb.classList.contains("active"))tb.click();
+  document.querySelectorAll(".wn-spot").forEach(e=>e.classList.remove("wn-spot"));
+  const old=document.getElementById("wn-bubble");if(old)old.remove();
+  setTimeout(()=>{
+    const det=el.closest("details");if(det&&!det.open)det.open=true;
+    try{el.scrollIntoView({behavior:"smooth",block:"center"});}catch(e){}
+    el.classList.add("wn-spot");
+    const bub=document.createElement("div");bub.id="wn-bubble";bub.className="wn-bubble";
+    bub.innerHTML='<span class="wn-bub-txt">'+(it.spot||it.t)+'</span><span class="wn-bub-acts">'+(hasNext?'<button type="button" class="wn-next">Seguinte →</button>':'')+'<button type="button" class="wn-bub-x" aria-label="Fechar">✕</button></span>';
+    document.body.appendChild(bub);
+    const nx=bub.querySelector(".wn-next");if(nx)nx.addEventListener("click",wnNextSpot);
+    bub.querySelector(".wn-bub-x").addEventListener("click",wnClearSpot);
+  },tb?300:60);
+}
+function wnNextSpot(){WN_TI++;if(WN_TI>=WN_TOUR.length){wnClearSpot();return;}wnSpotlight(WN_TOUR[WN_TI],WN_TI<WN_TOUR.length-1);}
+function wnStartTour(items){WN_TOUR=items.filter(it=>it.sel);WN_TI=0;if(WN_TOUR.length)wnSpotlight(WN_TOUR[0],WN_TOUR.length>1);}
+function maybeShowWhatsNew(){
   const seen=store.get("af_seen_version");
-  if(seen==null){store.set("af_seen_version",APP_VERSION);}
-  else if(wnNum(seen)<wnNum(APP_VERSION)){const items=wnCollect(seen);if(items.length)setTimeout(()=>openWhatsNew(items,APP_VERSION),900);store.set("af_seen_version",APP_VERSION);}
+  if(seen==null){store.set("af_seen_version",APP_VERSION);return;}
+  if(wnNum(seen)<wnNum(APP_VERSION)){const items=wnCollect(seen);if(items.length)setTimeout(()=>openWhatsNew(items,APP_VERSION),700);store.set("af_seen_version",APP_VERSION);}
+}
+(function(){
+  const ov=document.getElementById("wn-overlay"),ok=document.getElementById("wn-ok"),see=document.getElementById("see-whatsnew"),list=document.getElementById("wn-list");
+  if(ok)ok.addEventListener("click",()=>{if(ov)ov.classList.remove("show");const imp=WN_ITEMS.filter(it=>it.important&&it.sel);if(imp.length)setTimeout(()=>wnStartTour(imp),350);});
+  if(ov)ov.addEventListener("click",e=>{if(e.target===ov)ov.classList.remove("show");});
+  if(list)list.addEventListener("click",e=>{const li=e.target.closest("li.wn-clk");if(!li)return;const it=WN_ITEMS[+li.dataset.i];if(it&&it.sel){if(ov)ov.classList.remove("show");WN_TOUR=[it];WN_TI=0;setTimeout(()=>wnSpotlight(it,false),300);}});
+  if(see)see.addEventListener("click",()=>{if(typeof closeSettings==="function")closeSettings();const latest=CHANGELOG[0];openWhatsNew(latest.items,latest.v);});
 })();
 if(_st&&_st.isETF){let _e=isETF(_st.etfKey||_st.ticker);if(!_e){const kk=(_st.etfKey||"").toUpperCase();const looksIsin=/^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(kk);_e={s:_st.ticker||"ETF",n:_st.empresa||_st.ticker||"ETF (personalizado)",isin:looksIsin?kk:"",issuer:"",index:"",ter:"",dist:"",dom:"",hold:"",issuerUrl:""};}enterETF(_e);}
 buildMonths();renderBudget();
