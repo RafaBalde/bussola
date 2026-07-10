@@ -966,6 +966,12 @@
     </div>
 
     <div class="set-sec">
+      <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Sessão</h4>
+      <label class="toggle"><input type="checkbox" id="warn-close"><span class="track"></span><span class="lbl">Avisar ao fechar <small>lembra-te de terminar sessão antes de sair</small></span></label>
+      <p class="set-note" style="margin-top:8px">Mostra a confirmação do navegador ao fechar ou recarregar a app. O texto é do próprio navegador (não pode ser personalizado) e a decisão de sair é tua — este aviso <b>não termina a sessão sozinho</b>, só serve de lembrete.</p>
+    </div>
+
+    <div class="set-sec">
       <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Cópia de segurança &amp; migração</h4>
       <p class="set-note">Descarrega um ficheiro com <b>tudo</b> — conta, orçamento, ações, histórico e definições. Serve para levar os teus dados para outro dispositivo ou endereço (ex.: mudança de alojamento) <b>sem perder nada</b>.</p>
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px">
@@ -1908,7 +1914,7 @@ function sessionOnRefresh(){const acc=store.get("af_account");if(acc&&store.get(
 /* ====== modo de demonstração (sandbox) ====== */
 function enterGuest(){GUEST=true;document.getElementById("guest-banner").classList.add("show");const ps=document.getElementById("pb-sub");if(ps)ps.textContent="modo demo";closeModal();}
 function exitGuest(){GUEST=false;const b=document.getElementById("guest-banner");if(b)b.classList.remove("show");}
-function exitGuestToSignup(){try{sessionStorage.setItem("af_open_signup","1");}catch(e){}location.reload();}
+function exitGuestToSignup(){try{sessionStorage.setItem("af_open_signup","1");}catch(e){}window._appReloading=true;location.reload();}
 
 /* ====== editar metas da roda de gastos ====== */
 function rodaSum(){const v=k=>parseNum(document.getElementById("rt-"+k).value);const s=v("inv")+v("ess")+v("livres")+v("des");document.getElementById("roda-sum").textContent="Soma atual: "+fmt(s,0)+"% "+(Math.round(s)===100?"(equilibrada)":"(podes deixar diferente de 100%)");}
@@ -2224,7 +2230,7 @@ function importBackup(file){
     let n=0;Object.keys(data).forEach(k=>{if(k.indexOf("af_")===0){const val=data[k];try{localStorage.setItem(k,typeof val==="string"?val:JSON.stringify(val));n++;}catch(e){}}});
     if(!n)throw new Error("vazio");
     if(typeof toast==="function")toast("Importado ("+n+" itens). A recarregar…");
-    setTimeout(()=>location.reload(),800);
+    setTimeout(()=>{window._appReloading=true;location.reload();},800);
   }catch(e){if(typeof toast==="function")toast("Ficheiro inválido.");else alert("Ficheiro de cópia inválido.");}};
   r.readAsText(file);
 }
@@ -2238,6 +2244,7 @@ if(_st){if(_st.raw)Object.assign(RAW,_st.raw);if(_st.ticker){CUR.ticker=_st.tick
 buildRaw();buildGroups();compute();updateSALinks();
 (function(){const _c=store.get("af_calc");if(_c)["p0","pmt","rate","years"].forEach(k=>{const el=document.getElementById("ci-"+k);if(el&&_c[k]!=null&&_c[k]!=="")el.value=_c[k];});["ci-p0","ci-pmt","ci-rate","ci-years"].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener("input",calcJuros);});if(typeof calcJuros==="function")calcJuros();})();
 (function(){const ex=document.getElementById("bkp-export"),ib=document.getElementById("bkp-import-btn"),bf=document.getElementById("bkp-file");if(ex)ex.addEventListener("click",exportBackup);if(ib&&bf)ib.addEventListener("click",()=>bf.click());if(bf)bf.addEventListener("change",e=>{if(e.target.files&&e.target.files[0])importBackup(e.target.files[0]);e.target.value="";});})();
+(function(){const wc=document.getElementById("warn-close");if(wc){wc.checked=!!store.get("af_warn_close");wc.addEventListener("change",()=>store.set("af_warn_close",wc.checked));}window.addEventListener("beforeunload",e=>{if(window._appReloading)return;if(store.get("af_warn_close")&&store.get("af_session")){e.preventDefault();e.returnValue="";}});})();
 if(_st&&_st.isETF){let _e=isETF(_st.etfKey||_st.ticker);if(!_e){const kk=(_st.etfKey||"").toUpperCase();const looksIsin=/^[A-Z]{2}[A-Z0-9]{9}[0-9]$/.test(kk);_e={s:_st.ticker||"ETF",n:_st.empresa||_st.ticker||"ETF (personalizado)",isin:looksIsin?kk:"",issuer:"",index:"",ter:"",dist:"",dom:"",hold:"",issuerUrl:""};}enterETF(_e);}
 buildMonths();renderBudget();
 loadProfile();
