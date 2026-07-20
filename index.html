@@ -1194,8 +1194,7 @@
         <div class="fg"><label for="p-contrib">Contribuição mensal (&euro;)</label><input id="p-contrib" type="text" inputmode="decimal" placeholder="ex.: 500"></div>
         <div class="fg"><label for="p-objetivo">Objetivo (&euro;)</label><input id="p-objetivo" type="text" inputmode="decimal" placeholder="ex.: 1000000"></div>
       </div>
-      <label class="toggle" style="margin-top:14px"><input type="checkbox" id="su-2fa"><span class="track"></span><span class="lbl">Verificação em 2 passos <small>código de 4 dígitos ao entrar</small></span></label>
-      <div class="fg" id="su-2fa-method-wrap" hidden style="margin-top:12px"><label>Enviar código por</label><div class="seg" id="su-2fa-method"><button type="button" data-v="sms" class="on">SMS</button><button type="button" data-v="email">Email</button></div></div>
+
       <div class="modal-actions"><button class="btn-ghost" id="profile-clear" type="button">Limpar</button><button class="btn-primary" id="signup-btn" type="button">Confirmar criação</button></div>
       <p class="store-note" id="store-note"></p>
     </div>
@@ -1884,7 +1883,6 @@ document.querySelectorAll(".seg").forEach(seg=>seg.addEventListener("click",e=>{
   if(seg.id==="su-idtype"){document.getElementById("su-id-label").textContent=v==="email"?"Email":"Telemóvel";document.getElementById("su-id").placeholder=v==="email"?"email@exemplo.pt":"+351 9XX XXX XXX";}
   if(seg.id==="su-sectype"){document.getElementById("su-sec-label").textContent=v==="password"?"Password":"Passcode (PIN)";const i=document.getElementById("su-secret"),i2=document.getElementById("su-secret2");i.type="password";if(i2)i2.type="password";document.querySelectorAll('.pw-eye[data-for="su-secret"],.pw-eye[data-for="su-secret2"]').forEach(b=>b.classList.remove("on"));i.inputMode=v==="passcode"?"numeric":"text";i.placeholder=v==="passcode"?"PIN numérico":"••••••";if(i2)i2.inputMode=i.inputMode;}
 }));
-document.getElementById("su-2fa").addEventListener("change",e=>{document.getElementById("su-2fa-method-wrap").hidden=!e.target.checked;});
 const avatarFile=document.getElementById("p-avatar-file");
 if(avatarFile)avatarFile.addEventListener("change",e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{const img=new Image();img.onload=()=>{const c=document.createElement("canvas");c.width=c.height=128;const x=c.getContext("2d");const s=Math.min(img.width,img.height);x.drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,128,128);avatarData=c.toDataURL("image/jpeg",0.85);setAvatar();};img.src=rd.result;};rd.readAsDataURL(f);});
 document.getElementById("signup-btn").addEventListener("click",async()=>{
@@ -1892,7 +1890,7 @@ document.getElementById("signup-btn").addEventListener("click",async()=>{
   const id=document.getElementById("su-id").value.trim(),secret=document.getElementById("su-secret").value,secret2=document.getElementById("su-secret2").value;
   if(!id||!secret){note.textContent="Preenche o identificador e o segredo.";return;}
   if(secret!==secret2){note.textContent="As palavras-passe não coincidem.";return;}
-  const acc={idType:segVal("su-idtype"),id,secType:segVal("su-sectype"),secretHash:await hashSecret(secret),twofa:{enabled:document.getElementById("su-2fa").checked,method:segVal("su-2fa-method")}};
+  const acc={idType:segVal("su-idtype"),id,secType:segVal("su-sectype"),secretHash:await hashSecret(secret)};
   const pr={};PF.forEach(k=>{const el=document.getElementById("p-"+k);pr[k]=el?el.value.trim():"";});if(avatarData)pr.avatar=avatarData;
   exitGuest();
   const ok=store.set("af_account",acc)&&store.set("af_profile",pr);store.set("af_session",true);
